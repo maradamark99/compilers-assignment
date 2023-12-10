@@ -32,7 +32,7 @@ export async function readContent(file: File): Promise<string> {
       resolve(text);
     };
 
-    reader.onerror = (e) => {
+    reader.onerror = () => {
       reject(new Error('An error occured, while reading the file'));
     };
 
