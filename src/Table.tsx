@@ -39,7 +39,7 @@ export function Table({
 												i !== 0 &&
 												j !== 0 &&
 												currentCell.column === j
-													? 'bg-blue-500 text-white'
+													? 'bg-black text-white'
 													: '')
 											}
 											type="text"

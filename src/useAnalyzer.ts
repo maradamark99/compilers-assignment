@@ -11,6 +11,7 @@ export function useAnalyzer(
 ) {
     const { endSymbol, terminalSymbols, nonTerminalSymbols } = extractSymbols(matrix);
     const [cleanedInput, setCleanedInput] = useState(input + "#");
+	const [ruleSequenceNumbers, setRuleSequenceNumbers] = useState<number[]>([]);
     const [currentCell, setCurrentCell] = useState<CurrentCell>({ row: 0, column: 0 }); 
     const [result, setResult] = useState<"rejected" | "accepted" | undefined>();
     const stackRef = useRef(stack);
@@ -54,7 +55,10 @@ export function useAnalyzer(
                 return;
             }
             setStack(stackRef.current.slice(0, -1));
-            const cleanedCell = cell.split(';')[0];
+            const [cleanedCell, sequenceNum] = cell.split(';');
+            if (!isNaN(+sequenceNum)) {
+                setRuleSequenceNumbers((prev) => [...prev, +sequenceNum]);
+            }
             if (cleanedCell === 'pop') {
                 index++;
                 setCleanedInput((prev) => prev.slice(1));
@@ -72,5 +76,5 @@ export function useAnalyzer(
         processInput();
     }
 
-    return { analyze, cleanedInput, currentCell, result };
+    return { analyze, cleanedInput, currentCell, result, ruleSequenceNumbers };
 }

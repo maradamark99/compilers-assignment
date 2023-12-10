@@ -54,12 +54,8 @@ function App() {
 	const [isStarted, setIsStarted] = useState(false);
 	const [stack, setStack] = useState<string[]>([endSymbol, startSymbol]);
 	const [input, setInput] = useState('');
-	const { analyze, cleanedInput, currentCell, result } = useAnalyzer(
-		matrix,
-		input,
-		stack,
-		setStack
-	);
+	const { analyze, cleanedInput, currentCell, result, ruleSequenceNumbers } =
+		useAnalyzer(matrix, input, stack, setStack);
 
 	useEffect(() => {
 		if (file) {
@@ -81,12 +77,22 @@ function App() {
 	return (
 		<div className="flex items-center gap-32">
 			<div className="flex flex-col items-center gap-6">
-				{stack && (
-					<Stack
-						className="mt-12 w-72 flex justify-center"
-						stack={stack}
-					/>
-				)}
+				<div className="flex-col mt-10">
+					<div className="flex">
+						{ruleSequenceNumbers &&
+							ruleSequenceNumbers.map((e) => (
+								<div key={e} className="text-3xl">
+									{e}
+								</div>
+							))}
+					</div>
+					{stack && (
+						<Stack
+							className="w-72 mt-6 flex justify-center"
+							stack={stack}
+						/>
+					)}
+				</div>
 				<div>
 					{result ? (
 						<div
